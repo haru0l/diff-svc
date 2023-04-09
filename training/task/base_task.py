@@ -125,9 +125,9 @@ class BaseTask(nn.Module):
             'log': tb_log
         }
 
-    def optimizer_step(self, epoch, batch_idx, optimizer, optimizer_idx):
-        optimizer.step()
-        optimizer.zero_grad()
+    def optimizer_step(self, epoch, batch_idx, optimizer, optimizer_idx, use_amp, scaler):
+        scaler.step(optimizer)
+        scaler.update()
         if self.scheduler is not None:
             self.scheduler.step(self.global_step // hparams['accumulate_grad_batches'])
 
