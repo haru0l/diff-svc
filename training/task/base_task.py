@@ -125,10 +125,9 @@ class BaseTask(nn.Module):
             'log': tb_log
         }
 
-    def optimizer_step(self, epoch, batch_idx, optimizer, optimizer_idx, use_amp, scaler):
-        scaler.step(optimizer)
-        scaler.update()
-        scaler.zero_grad(optimizer)
+    def optimizer_step(self, epoch, batch_idx, optimizer, optimizer_idx):
+        optimizer.step()
+        optimizer.zero_grad()
         if self.scheduler is not None:
             self.scheduler.step(self.global_step // hparams['accumulate_grad_batches'])
 
@@ -217,8 +216,7 @@ class BaseTask(nn.Module):
                               max_updates=hparams['max_updates'],
                               num_sanity_val_steps=hparams['num_sanity_val_steps'] if not hparams[
                                   'validate'] else 10000,
-                              accumulate_grad_batches=hparams['accumulate_grad_batches'],
-                              use_amp=hparams['use_amp'])
+                              accumulate_grad_batches=hparams['accumulate_grad_batches'])
         if not hparams['infer']:  # train
             # copy_code = input(f'{hparams["save_codes"]} code backup? y/n: ') == 'y'
             # copy_code = True # backup code every time
