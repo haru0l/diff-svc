@@ -119,11 +119,8 @@ class SVCTask(FastSpeech2Task):
     def optimizer_step(self, epoch, batch_idx, optimizer, optimizer_idx, use_amp, scaler):
         if optimizer is None:
             return
-        if use_amp:
-            scaler.step(optimizer)
-            scaler.update()
-        else:
-            optimizer.step()
+        scaler.step(optimizer)
+        scaler.update()
         optimizer.zero_grad()
         if self.scheduler is not None:
             self.scheduler.step(self.global_step // hparams['accumulate_grad_batches'])
