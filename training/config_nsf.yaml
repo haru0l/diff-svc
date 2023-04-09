@@ -163,7 +163,6 @@ test_prefixes:
 test_set_name: test
 timesteps: 1000
 train_set_name: train
-use_amp: true
 use_crepe: true
 use_denoise: false
 use_energy_embed: false
