@@ -378,7 +378,7 @@ class BaseTrainer:
             weights_summary='full',
             num_sanity_val_steps=5,
             resume_from_checkpoint=None,
-            use_amp=False
+            use_amp=True
     ):
         self.log_gpu_memory = log_gpu_memory
         self.gradient_clip_val = gradient_clip_val
